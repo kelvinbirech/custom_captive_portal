@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Welcome to Our Free Wi-Fi</title>
+</head>
+<body>
+  <div class="container">
+    <img src="images/EP-LOGO.png" alt="Company Logo" />
+    <h1>Welcome to EP</h1>
+    <p>Enjoy our free Wi-Fi.</p>
+    <form method="POST" action="https://eventspromotionsltd.com/">
+      <button type="submit">Click To Connect</button>
+    </form>
+     <div class="tos">
+      By connecting, you agree to our <a id="tosLink">Terms of Service</a>.
+    </div>
+  </div>
+
+  <div id="tosModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h2>WiFi Terms of Service - Events and Promotions Group</h2>
+
+<div id="en" class="content active"></div>
+      <div class="tos-box">
+    <h2>1. Acceptance of Terms</h2>
+    <p>By accessing or using <strong>Events and Promotions Group </strong> guest WiFi service ("Service"), you agree to these Terms of Service.  If you do not agree, please do not use the service.</p>
+
+    <h2>2. Eligibility and Use</h2>
+    <p>Use is only permitted for personal and legitimate purposes.  You may not use this network for illicit purposes, such as the dissemination of dangerous content, hacking, spamming, or copyright infringement.</p>
+
+    <h2>3. Data and Monitoring</h2>
+    <p>We may collect session data (MAC address, IP address, and connection time) in compliance with the Communications Authority of Kenya (CA) regulations.  We do not track your internet history.</p>
+
+    <h2>4. Service Disclaimer</h2>
+    <p>This network is offered "as-is".  We do not guarantee speed, availability, or security.  Use a VPN to prevent entering sensitive info over public WiFi.</p>
+
+    <h2>5. Termination</h2>
+    <p>If the network is misused or poses a security risk, we reserve the right to stop or revoke access without warning.</p>
+
+    <h2>6. Amendments</h2>
+    <p>We may change these terms without notice.  Continued use of the network indicates that you accept any modifications.</p>
+
+    <h2>7. Contact</h2>
+    <p>Events and Promotions Group<br>
+    <strong>Email: </strong>info@eventspromotionsltd.com<br>
+    <strong>Phone:</strong> +254 716 151111, +254 736 888008<br>
+    </p>
+
+
+  </div>
+  </div>
+
+        
+  </div>
+
+  <script>
+    const tosLink = document.getElementById('tosLink');
+    const modal = document.getElementById('tosModal');
+    const closeModal = document.getElementById('closeModal');
+
+    tosLink.onclick = () => modal.style.display = "block";
+    closeModal.onclick = () => modal.style.display = "none";
+    window.onclick = (event) => {
+      if (event.target == modal) modal.style.display = "none";
+    };
+    function switchLang(lang) {
+    document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+    document.getElementById(lang).classList.add('active');
+  }
+
+  </script>
+  </div>
+</body>
+</html>
