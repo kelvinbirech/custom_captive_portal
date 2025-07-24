@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wi-Fi Access</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('./images/BG5.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden; 
+    }
+
+    .banner {
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 12px;
+      padding: 50px 30px;
+      width: 560px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    .banner img {
+      max-width: 200px;
+      margin-bottom: 20px;
+    }
+
+    .headline {
+      font-size: 1.8rem;
+      margin-bottom: 0.3rem;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .subtext {
+      font-size: 1.05rem;
+      margin-bottom: 20px;
+      color: #eeeeee;
+      font-weight: 500;
+    }
+
+    #btn-submit {
+      width: 100%;
+      height: 50px;
+      border: none;
+      background: #6CAF31;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s ease;
+    }
+
+    #btn-submit:hover {
+      background: #77ef0f;
+    }
+
+    #btn-submit:disabled {
+      background: #54a742;
+      color: #d6e3f3;
+      cursor: not-allowed;
+    }
+
+    .agree {
+      display: block;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .agree a {
+      color: #4cb4ff;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    .agree a.agreed {
+      color: #6CAF31;
+    }
+
+    #tips {
+      display: none;
+      color: red;
+      margin-top: 10px;
+    }
+    .page-footer {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  color: #ccc;
+  z-index: 10;
+}
+
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0, 0, 0, 0.6);
+      touch-action: none;
+    }
+
+.modal-content {
+  background-color: #fff;
+  color: #000;
+  margin: 5% auto;
+  padding: 15px 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+.modal-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid #6CAF31;
+  display: inline-block;
+}
+.modal-content h2 {
+  font-size: 1.1rem;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+.modal-content p {
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.modal-content p:last-child {
+  margin-bottom: 5px;
+}
+
+
+  /*  .modal-footer {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  color: #ccc;
+}
+*/
+
+    .close {
+      color: #333;
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .banner {
+        margin: 30px 20px;
+        padding: 30px 15px;
+      }
+
+      #btn-submit {
+        height: 45px;
+        font-size: 16px;
+      }
+    }
+
+     /* Modal Animations */
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  80% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+.modal.show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content.animate-in {
+  animation: bounceIn 0.45s ease-out forwards;
+}
+
+.modal-content.animate-out {
+  animation: bounceOut 0.3s ease-in forwards;
+}
+
+  </style>
+</head>
+<body>
+
+<div class="banner">
+  <img src="./images/EP-LOGO.png" alt="Events Promotions Logo" />
+  <div class="headline">Welcome to EP</div>
+  <div class="subtext">Enjoy our free Wi-Fi</div>
+  <div id="tips"></div>
+
+  <input id="btn-submit" type="button" value="Connect To Wi-Fi" disabled />
+
+  <label class="agree">
+    <input type="checkbox" id="agree" onclick="agreement(true)" />
+    Accept <a href="#" id="tosLink">Terms Of Use</a>
+  </label>
+</div>
+
+<!-- Modal -->
+<div id="termsModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeModal">&times;</span>
+    <h1 class="modal-title">Terms Of Use</h1>
+
+    <h2>1. Usage & Conduct</h2>
+    <p>By using Events and Promotions Group's free guest Wi-Fi, you agree to use it responsibly and only for lawful, personal purposes. Any misuse—such as illegal activity, spamming, or security threats—may result in immediate termination of access.</p>
+
+    <h2>2. Disclaimer & Data</h2>
+    <p>The Wi-Fi is provided "as-is" without guarantees of speed or security. Limited session data (like your IP and MAC address) may be collected as required by Kenyan regulations. We do not monitor your browsing activity. Use a VPN if transmitting sensitive data.</p>
+ <h2>3. Contact</h2>
+    <strong style="font-size: 1.1rem; color: #6CAF31;">Events and Promotions Group</strong><br />
+   <strong>Email:</strong> <a href="mailto:info@eventspromotionsltd.com">info@eventspromotionsltd.com</a><br />
+      <strong>Phone:</strong> +254 716 151111, +254 736 888008<br />
+      <strong>Website:</strong> <a href="https://eventspromotionsltd.com" target="_blank">eventspromotionsltd.com</a>
+    
+    
+  </div>
+   <!-- <div class="modal-footer">
+    &copy; 2025 Events Promotions Ltd. All rights reserved.
+  </div> -->
+</div>
+
+<script src="jquery.js"></script>
+<script>
+  var clickable = true;
+
+  function agreement(isClick) {
+    const agreed = document.getElementById('agree').checked;
+    const button = document.getElementById('btn-submit');
+    const tosLink = document.getElementById('tosLink');
+
+    if (agreed && clickable) {
+      button.removeAttribute('disabled');
+      tosLink.classList.add('agreed');
+      if (isClick) button.focus();
+    } else {
+      button.setAttribute('disabled', 'disabled');
+      tosLink.classList.remove('agreed');
+    }
+  }
+
+  $('#btn-submit').click(function () {
+    clickable = false;
+    $(this).attr('disabled', 'disabled').val('Connecting...');
+    $.ajax({
+      url: window.location.protocol + '//' + window.location.host + "/GsUserAuth.cgi",
+      contentType: 'application/json',
+      timeout: 30000,
+      type: "POST",
+      data: { GsUserAuthMethod: 0 },
+      dataType: "json",
+      success: function (res) {
+        clickable = true;
+        var status = res.result;
+        if (status == 1 || status == 16028) {
+          setTimeout(function () {
+            window.location.href = "https://eventspromotionsltd.com";
+          }, 1000);
+        } else {
+          alert("Authentication failed. Please try again.");
+          $('#btn-submit').removeAttr('disabled').val('Connect To Wi-Fi');
+        }
+      },
+      error: function () {
+        clickable = true;
+        alert("Connection error. Please try again.");
+        $('#btn-submit').removeAttr('disabled').val('Connect To Wi-Fi');
+      }
+    });
+  });
+
+  agreement(); // Initialize button state
+
+  // Modal logic with animation
+  const modal = document.getElementById("termsModal");
+  const modalContent = modal.querySelector(".modal-content");
+  const tosLink = document.getElementById("tosLink");
+  const closeModal = document.getElementById("closeModal");
+
+  function openModal() {
+    modal.classList.add("show");
+    modalContent.classList.remove("animate-out");
+    modalContent.classList.add("animate-in");
+  }
+
+  function hideModal() {
+    modalContent.classList.remove("animate-in");
+    modalContent.classList.add("animate-out");
+    setTimeout(() => {
+      modal.classList.remove("show");
+    }, 200);
+  }
+
+  tosLink.addEventListener("click", function (e) {
+    e.preventDefault();
+    openModal();
+  });
+
+  closeModal.addEventListener("click", hideModal);
+
+  window.addEventListener("click", function (e) {
+    if (e.target === modal) {
+      hideModal();
+    }
+  });
+
+  // Touch scroll trap for mobile Chrome/Safari
+  modal.addEventListener("touchstart", function (e) {
+    const el = modal.querySelector(".modal-content");
+    el.dataset.startY = e.touches[0].clientY;
+    el.dataset.scrollTop = el.scrollTop;
+    el.dataset.maxScroll = el.scrollHeight - el.offsetHeight;
+  }, { passive: true });
+
+  modal.addEventListener("touchmove", function (e) {
+    const el = modal.querySelector(".modal-content");
+    const startY = parseFloat(el.dataset.startY);
+    const maxScroll = parseFloat(el.dataset.maxScroll);
+    const scrollTop = el.scrollTop;
+    const currentY = e.touches[0].clientY;
+    const deltaY = currentY - startY;
+
+    if (
+      (scrollTop === 0 && deltaY > 0) || 
+      (scrollTop >= maxScroll && deltaY < 0)
+    ) {
+      e.preventDefault(); // Block overscroll
+    }
+  }, { passive: false });
+</script>
+
+<div class="page-footer">
+  &copy; 2025 Events Promotions Ltd. All rights reserved.
+</div>
+
+</body>
+</html>
